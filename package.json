@@ -1,8 +1,12 @@
 {
   "name": "it122",
   "version": "1.0.0",
-  "description": "it122 demp app",
+  "description": "it122 demo app",
   "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,13 +14,10 @@
     "type": "git",
     "url": "git+https://github.com/Hongbin-L/Hongbin-It122.git"
   },
-  "author": "Hongbin",
+  "author": "hongbin",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Hongbin-L/Hongbin-It122/issues"
   },
-  "homepage": "https://github.com/Hongbin-L/Hongbin-It122#readme",
-  "dependencies": {
-    "express": "^4.17.1"
-  }
+  "homepage": "https://github.com/Hongbin-L/Hongbin-It122#readme"
 }
