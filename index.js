@@ -6,11 +6,11 @@ const server = http.createServer((req, res) => {
   switch (path[0]) {
     case "/":
       res.writeHead(200, { "Content-Type": "text/plain" });
-      res.end(JSON.stringify(data.getAll(), null, 1));
+      res.end(JSON.stringify(data.getAll()));
       break;
       case "/detail":
         let param = querystring.parse(path[1]);
-        res.end(JSON.stringify(data.getItem(param.brand), null, 1));
+        res.end(JSON.stringify(data.getItem(param.brand)));
         break;
       case "/about":
       res.writeHead(200, { "Content-Type": "text/plain" });
