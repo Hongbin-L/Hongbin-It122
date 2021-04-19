@@ -10,11 +10,10 @@ const getAll = () => {
     return usedCars;
 };
 
-console.log(getAll())
 
 const getItem = (brand) => {
     return usedCars.find((usedCar) => {
-        return usedCar.brand === brand;
+        return usedCar.brand == brand;
     });
 };
 

@@ -2,7 +2,7 @@ const http = require("http");
 const data = require("./data");
 const qs = require("querystring");
 const server = http.createServer((req, res) => {
-  let path = req.url.toLowerCase().split("?");
+  let path = req.url.split("?");
   switch (path[0]) {
     case "/":
       res.writeHead(200, { "Content-Type": "text/plain" });
