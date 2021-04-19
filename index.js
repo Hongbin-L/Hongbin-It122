@@ -1,7 +1,8 @@
-const http = require("http");
-const data = require("./data");
-const qs = require("querystring");
-const server = http.createServer((req, res) => {
+import http from 'http';
+import * as data from "./data.js";
+import qs from "querystring";
+
+http.createServer((req, res) => {
   let path = req.url.split("?");
   switch (path[0]) {
     case "/":
@@ -21,5 +22,5 @@ const server = http.createServer((req, res) => {
       res.end("Not found");
       break;
   }
-});
-server.listen(3000);
+})
+.listen(process.env.PORT || 3000);

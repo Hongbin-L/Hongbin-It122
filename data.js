@@ -18,4 +18,4 @@ const getItem = (brand) => {
 };
 
 
-module.exports = { getAll, getItem };
+export { getAll, getItem }
