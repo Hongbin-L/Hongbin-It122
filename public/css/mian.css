@@ -1,0 +1,77 @@
+body{
+  width: 70%;
+  background-color:wheat;
+  margin-left: 15%;
+}
+
+h2{
+  text-align: center;
+  font-family:fantasy;
+  font-size: 3em;
+}
+
+.search{
+  margin-left: 60%;
+}
+
+.search button {
+  border: none;
+  color: white;
+}
+
+.search-btn{
+  background-color: #4d391b;
+}
+
+.search-btn:hover {
+  background: #805e2b;
+}
+
+.detail1{
+  margin: 5% 0 5% 0;
+  text-align: center;
+}
+
+.detail1 button{
+  border: none;
+  color: white;
+  font-size: 2em;
+  padding: 1% 2%;
+}
+
+.detail-btn {
+  background-color: #4d391b;
+}
+
+.detail-btn:hover {
+  background: #805e2b;
+}
+
+.detail2{
+  padding: 5%;
+  font-size: 2em;
+}
+
+.goback{
+  text-align: center;
+}
+
+.goback button{
+  border: none;
+  color: white;
+  font-size: 2em;
+  padding: 1% 2%;
+}
+
+.goback-btn{
+  background-color: #4d391b;
+}
+
+.goback-btn:hover {
+  background: #805e2b;
+}
+
+.notfound {
+  text-align: center;
+  font-size: 2em;
+}

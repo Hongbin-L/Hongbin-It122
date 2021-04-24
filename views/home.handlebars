@@ -1,0 +1,14 @@
+<h2 class="title">HOME</h2>
+<form method="PORT" action="/detail">
+<div class="search">
+<input type="text" name="brand" placeholder="brand">
+<button class="search-btn">Search</button>
+</div>
+</form>
+    {{#each usedCars}}
+    <div class="detail1">
+    <a href="/detail?brand={{brand}}"><button class="detail-btn">{{brand}}</button></a>
+    <br>
+    </div>
+    {{/each}}
+

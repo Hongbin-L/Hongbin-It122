@@ -1,8 +1,41 @@
-import http from 'http';
-import * as data from "./data.js";
-import qs from "querystring";
+//import http from 'http';
+import * as usedCar from "./data.js";
+//import qs from "querystring";
+import express from 'express';
+import handlebars from 'express-handlebars';
 
-http.createServer((req, res) => {
+
+const app = express();
+const port = 3000;
+
+app.use(express.static('public'));
+app.use(express.urlencoded({extended: true} ));
+app.use(express.json());
+
+app.engine('handlebars', handlebars({defaultLayout: "main.handlebars"}));
+app.set("view engine", "handlebars");
+
+app.get("/", (req, res) => {
+  res.render("home", { usedCars : usedCar.getAll() });
+});
+
+app.get('/about', (req,res) => {
+  res.set("Content-Type", "text/plain");
+  res.send('Hello, my name is Hongbin');
+})
+
+app.get('/detail', (req,res) => {
+  let result = usedCar.getItem(req.query.brand);
+  res.render("detail", {title: req.query.brand, usedCar:result});
+  console.log(result)
+});
+
+app.listen(port);
+
+
+
+
+/*http.createServer((req, res) => {
   let path = req.url.split("?");
   switch (path[0]) {
     case "/":
@@ -15,7 +48,7 @@ http.createServer((req, res) => {
         break;
       case "/about":
       res.writeHead(200, { "Content-Type": "text/plain" });
-      res.end(`About page\n\rHello, my name is Hongbin`);
+      res.end('About page\n\rHello, my name is Hongbin');
       break;
     default:
       res.writeHead(404, { "Content-Type": "text/plain" });
@@ -23,4 +56,4 @@ http.createServer((req, res) => {
       break;
   }
 })
-.listen(process.env.PORT || 3000);
+.listen(process.env.PORT || 3000); */

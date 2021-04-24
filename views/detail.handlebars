@@ -1,0 +1,13 @@
+<h2 class="title">Car Brand: {{title}}</h2>
+{{#if usedCar}}
+{{#with usedCar}}
+<h2 class="title">Year: {{year}}</h2>
+<h2 class="title">Color: {{color}}</h2>
+<h2 class="title">Price: {{price}}</h2>
+{{/with}}
+{{else}}
+<p class="notfound">CAR NOT FOUND</p>
+{{/if}}
+<div class="goback">
+<a class="default" href="/"><button class="goback-btn">BACK TO HOME PAGE</button></a>
+</div>
