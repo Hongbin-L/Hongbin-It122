@@ -1,4 +1,4 @@
-const usedCars = [
+let usedCars = [
     {brand : "Jeep", year : 2019, color : "White", price: "$69,999"},
     {brand : "Ford", year : 2017, color : "Black", price: "$19,999"},
     {brand : "Chevrolet", year : 2019, color : "White", price: "$19,894"},
@@ -17,5 +17,23 @@ const getItem = (brand) => {
     });
 };
 
+const deleteItem = (brand) => {
+    const oldLength = usedCars.length;
+    usedCars = usedCars.filter((usedCar) => {
+        return usedCar.brand !== brand;
+    });
+    return {deleted: oldLength !== usedCars.length, total: usedCars.length };
+};
 
-export { getAll, getItem }
+    
+const addItem = (addusedCar) => {
+    const oldLength = usedCars.length;
+    let found = getItem(addusedCar.brand);
+    if (!found) {
+        usedCars.push(addusedCar);
+    }
+        return {added: oldLength !== usedCars.length, total: usedCars.length };
+    };
+    
+
+export { getAll, getItem, addItem, deleteItem }
