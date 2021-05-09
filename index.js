@@ -1,22 +1,28 @@
 //import http from 'http';
-import * as usedCar from "./data.js";
+//import * as usedCar from "./data.js";
 //import qs from "querystring";
 import express from 'express';
 import handlebars from 'express-handlebars';
-
+import { usedCar } from "./models/usedcar.js";
 
 const app = express();
 const port = 3000;
 
 app.use(express.static('public'));
-app.use(express.urlencoded({extended: true} ));
+app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 app.engine('handlebars', handlebars({defaultLayout: "main.handlebars"}));
 app.set("view engine", "handlebars");
 
+
 app.get("/", (req, res) => {
-  res.render("home", { usedCars : usedCar.getAll() });
+  usedCar.find().lean()
+    .then((usedCars) => {
+      res.render("home", { usedCars });
+      console.log(usedCars);
+    })
+    .catch((err) => next(err));
 });
 
 app.get('/about', (req,res) => {
@@ -24,10 +30,22 @@ app.get('/about', (req,res) => {
   res.send('Hello, my name is Hongbin');
 })
 
-app.get('/detail', (req,res) => {
-  let result = usedCar.getItem(req.query.brand);
-  res.render("detail", {title: req.query.brand, usedCar:result});
-  console.log(result)
+app.get("/detail", (req, res) => {
+  usedCar.findOne({ brand: req.query.brand })
+    .lean()
+    .then((result) => {
+      res.render("detail", { title: req.query.brand, usedCar:result});
+      console.log(req.query);
+    })
+    .catch((err) => next(err));
+});
+
+app.get('/delete', (req,res) => {
+  usedCar.deleteOne({brand :req.query.brand }, (err, result) => {
+      if (err) return next(err);
+      res.render("deleted",{title: req.query.brand, usedCar:result});
+      console.log(result);
+  });
 });
 
 app.listen(port);
