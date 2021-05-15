@@ -4,10 +4,13 @@
 import express from 'express';
 import handlebars from 'express-handlebars';
 import { usedCar } from "./models/usedcar.js";
+import cors from 'cors';
+
 
 const app = express();
 const port = 3000;
 
+app.use('/api', cors());
 app.use(express.static('public'));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
@@ -46,6 +49,57 @@ app.get('/delete', (req,res) => {
       res.render("deleted",{title: req.query.brand, usedCar:result});
       console.log(result);
   });
+});
+
+//api
+
+app.get('/api/usedCars', (req,res) => {
+  usedCar.find({}).lean().then((usedCars) => {
+    if (usedCars) {
+    res.json(usedCars)
+    } else {
+      return res.status(500).send('Database Error occurred');
+    }
+  })
+  .catch(err => next(err));
+});
+
+app.get("/api/usedCars/detail/:brand", (req, res) => {
+  usedCar.findOne({ brand: req.params.brand })
+    .lean()
+    .then((result) => {
+      if (result) {
+      res.json(result)
+    } else {
+      return res.status(500).send('Database Error occurred');
+    }
+    })
+    .catch((err) => next(err));
+});
+
+app.get('/api/usedCars/delete/:brand', (req,res) => {
+  usedCar.deleteOne({brand: req.params.brand }, (err, result) => {
+      if (err) return next(err);
+      res.json(result)
+  });
+});
+
+app.post('/api/usedCars/add/', (req,res, next) => {
+  console.log(req.body)
+  if (!req.body._id) {
+
+      let addCar = new usedCar({brand:req.body.brand,year:req.body.year,color:req.body.color, price:req.body.price});
+      addCar.save((err,result) => {
+          if (err) return next(err);
+          console.log(result)
+          res.json({updated: 0, _id: result._id});
+      });
+  } else {
+      usedCar.updateOne({ _id: req.body._id}, {brand:req.body.brand,year:req.body.year,color:req.body.color, price:req.body.price}, (err, result) => {
+          if (err) return next(err);
+          res.json({updated: result.nModified, _id: req.body._id});
+      });
+  }
 });
 
 app.listen(port);
