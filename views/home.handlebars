@@ -12,3 +12,19 @@
     </div>
     {{/each}}
 
+<div id="root"></div>
+<script type="text/babel">
+
+    const usedCars = {{{usedCars}}}
+
+    const UsedCars = (props) => {
+        const listItems = usedCars.map((item) =>  <a href={"/detail?brand="+item.brand}><button class="detail-btn">{item.brand}</button></a>);
+        return <ul>{listItems}</ul>
+    }
+
+      ReactDOM.render(
+        <div class="detail1"><UsedCars /></div>,
+        document.getElementById('root')
+      );
+
+</script>

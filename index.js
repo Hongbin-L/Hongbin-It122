@@ -22,7 +22,8 @@ app.set("view engine", "handlebars");
 app.get("/", (req, res) => {
   usedCar.find().lean()
     .then((usedCars) => {
-      res.render("home", { usedCars });
+      //res.render("home", { usedCars });
+      res.render('home', {usedCars:JSON.stringify(usedCars)});
       console.log(usedCars);
     })
     .catch((err) => next(err));
