@@ -15,16 +15,54 @@
 <div id="root"></div>
 <script type="text/babel">
 
-    const usedCars = {{{usedCars}}}
+    //const usedCars = {{{usedCars}}}
 
     const UsedCars = (props) => {
-        const listItems = usedCars.map((item) =>  <a href={"/detail?brand="+item.brand}><button class="detail-btn">{item.brand}</button></a>);
+        const listItems = props.data.map((item) =>  <button key={item._id} id={item._id} onClick={props.clickHandler} className="detail-btn">{item.brand}</button>);
         return <ul>{listItems}</ul>
     }
 
-      ReactDOM.render(
-        <div class="detail1"><UsedCars /></div>,
-        document.getElementById('root')
-      );
+    const ItemDetail = (props) => {
+      return <div>
+      <h3>Car Details</h3>
+      <ul>
+        <li>Brand: {props.item.brand}</li>
+        <li>Year: {props.item.year}</li>
+        <li>Color: {props.item.color}</li>
+        <li>Price: {props.item.price}</li>
+      </ul>
+      </div>
+    }
+
+    class UsedCarsApp extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            items: {{{usedCars}}},
+            currentItem: {}
+          };
+          this.selectItem = this.selectItem.bind(this);
+        }
+
+    selectItem = (event) => {
+      console.log(event.target.innerText)
+      const found = this.state.items.find((item) => {
+        return item.brand === event.target.innerText;
+      });
+      this.setState({currentItem: found})
+    }
+
+  render() {
+    return ( 
+      <div className="detail1"> 
+        <h1>Used Cars</h1>
+        <UsedCars data={this.state.items} clickHandler={this.selectItem} /> 
+        <ItemDetail item = {this.state.currentItem} />
+        </div> 
+        );
+  }
+}
+
+      ReactDOM.render(  <UsedCarsApp />,  document.getElementById('root') );
 
 </script>
