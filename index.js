@@ -78,8 +78,8 @@ app.get("/api/usedCars/detail/:brand", (req, res) => {
     .catch((err) => next(err));
 });
 
-app.get('/api/usedCars/delete/:brand', (req,res) => {
-  usedCar.deleteOne({brand: req.params.brand }, (err, result) => {
+app.get('/api/usedCars/delete/:id', (req,res) => {
+  usedCar.deleteOne({"_id": req.params.id }, (err, result) => {
       if (err) return next(err);
       res.json(result)
   });
