@@ -47,6 +47,23 @@ h2{
   background: #805e2b;
 }
 
+.carForm {
+  width: 100%;
+}
+
+.carForm input{
+  padding: 1%;
+  margin: 1%;
+}
+
+.clearBtn button{
+  background-color: #4d391b;
+}
+
+.clearBtn button:hover {
+  background: #805e2b;
+}
+
 .detail2{
   padding: 5%;
   font-size: 2em;

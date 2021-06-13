@@ -25,12 +25,26 @@
     const ItemDetail = (props) => {
       return <div>
       <h3>Car Details</h3>
-      <ul>
+      <form className="carForm">
+        Brand: <input type="text" name="brand" value={props.item.brand || ""} onChange={props.handleChange}/><br/>
+        Year: <input type="text" name="year" value={props.item.year || ""} onChange={props.handleChange}/><br/>
+        Color: <input type="text" name="color" value={props.item.color || ""} onChange={props.handleChange}/><br/>
+        Price: <input type="text" name="price" value={props.item.price || ""} onChange={props.handleChange}/><br/>
+        <div className="clearBtn">
+        <button name="clear" onClick={props.clearForm}>Clear</button>
+        <button name="save" onClick={props.saveItem}>Save</button>
+        <button name="delete" onClick={props.deleteItem}>Delete</button>
+        </div>
+      </form>
+
+    {/*  {props.item.brand && <ul>
         <li>Brand: {props.item.brand}</li>
         <li>Year: {props.item.year}</li>
         <li>Color: {props.item.color}</li>
         <li>Price: {props.item.price}</li>
       </ul>
+      }*/}
+
       </div>
     }
 
@@ -42,6 +56,10 @@
             currentItem: {}
           };
           this.selectItem = this.selectItem.bind(this);
+          this.handleChange = this.handleChange.bind(this);
+          this.clearForm = this.clearForm.bind(this);
+          this.saveItem = this.saveItem.bind(this);
+          this.deleteItem = this.deleteItem.bind(this);
         }
 
     selectItem = (event) => {
@@ -52,12 +70,71 @@
       this.setState({currentItem: found})
     }
 
+    handleChange = (event) => {
+      let newItem = this.state.currentItem;
+      newItem[event.target.name] = event.target.value;
+      this.setState({currentItem: newItem})
+    }
+
+    clearForm = () => {
+      this.setState({currentItem: {}})
+    }
+
+    saveItem = () => {
+    if (this.state.currentItem == {}) return
+    
+    let newItem = this.state.currentItem;
+
+    fetch("/api/usedCars/add/", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newItem)
+    })
+        .then(res => res.json())
+        .then((json) => { 
+          console.log(json)
+          //add a new item
+          if (json.updated === 0) {
+              newItem._id = json._id
+              let newList = this.state.item;
+              newList.push(newItem);
+              this.setState({items: newList});
+    }
+          });
+    }
+
+    deleteItem = () => {
+      console.log(this.state.currentItem)
+      if (this.state.currentItem == {}) return
+
+      let deleteId = this.state.currentItem._id;
+
+      let url = "/api/usedCars/delete/"+deleteId;
+
+      fetch(url)
+        .then(res => res.json())
+        .then((json) => { 
+          console.log(json) 
+          if (json.deleted.deletedCount > 0) {
+            let newList = this.state.items.filter(item => {
+              return item._id != deleteId;
+            })
+            this.setState({items: newList, currentItem: {}})
+          }
+          })
+
+    }
+
   render() {
     return ( 
       <div className="detail1"> 
         <h1>Used Cars</h1>
         <UsedCars data={this.state.items} clickHandler={this.selectItem} /> 
-        <ItemDetail item = {this.state.currentItem} />
+        <ItemDetail item = {this.state.currentItem}
+         handleChange={this.handleChange} 
+         clearForm={this.clearForm}
+         saveItem={this.saveItem}
+         deleteItem={this.deleteItem}/>
         </div> 
         );
   }
